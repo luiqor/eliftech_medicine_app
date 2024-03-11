@@ -10,6 +10,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import App from './App.tsx'
 import './index.css'
 import Storepage from './pages/Storepage.tsx'
+import axios from 'axios'
+
+axios.defaults.baseURL =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '/'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
