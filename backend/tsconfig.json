@@ -1,9 +1,11 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "es2017",
         "outDir": "./build",
         "module": "commonjs",
         "strict": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     }
 }
