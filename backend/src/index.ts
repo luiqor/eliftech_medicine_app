@@ -1,4 +1,5 @@
 import cors from 'cors'
+import path from 'path'
 import { createConnection } from 'typeorm';
 import { productRouter } from './routers/productRouter'
 import { seedRouter } from './routers/seedRouter'
@@ -8,6 +9,7 @@ import { orderRouter } from './routers/orderRouter';
 import bodyParser from 'body-parser'
 import { OrderEntity } from './entities/OrderEntity';
 import { OrderItemEntity } from './entities/OrderItemEntity';
+import { Request, Response } from 'express';
 
 createConnection({
   name: "default",
@@ -35,6 +37,11 @@ app.use(
 app.use('/api/products', productRouter)
 app.use('/api/seed', seedRouter)
 app.use('/api/create_order', orderRouter)
+app.use(express.static(path.join(__dirname, '../../frontend/dist')))
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+})
+
 
 const PORT = 4000
 app.listen(PORT, () => {

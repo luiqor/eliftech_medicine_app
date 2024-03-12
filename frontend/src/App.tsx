@@ -3,10 +3,10 @@ import { Navbar, Container, Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Link, Outlet } from 'react-router-dom'
 import { Store } from './Store'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 
 function App() {
-  const {state: {cart}, dispatch,} = useContext(Store)
+  const {state: {cart}} = useContext(Store)
 
   return (
       <div className='d-flex flex-column vh-100'>
