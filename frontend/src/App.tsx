@@ -34,8 +34,8 @@ function App() {
         </Container>
       </main>
 
-      <footer>
-        <div className='text-center'>All rights reserved</div>
+      <footer className="mt-5">
+        <div className='text-center'>Created by @luiqor</div>
       </footer>
     </div>
   )

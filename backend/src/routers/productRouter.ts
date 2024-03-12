@@ -1,8 +1,8 @@
-import { Request, Response, Router } from 'express';
-import { getRepository } from 'typeorm';
+import { Request, Response, Router } from 'express'
+import { getRepository } from 'typeorm'
 import { ProductEntity } from '../entities/ProductEntity'
 
-export const productRouter = Router();
+export const productRouter = Router()
 
 // api/products
 productRouter.get('/', async (req: Request, res: Response) => {
