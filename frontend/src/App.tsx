@@ -1,18 +1,29 @@
 import './index.css'
-import { Navbar, Container, Nav } from 'react-bootstrap';
-import { Outlet } from 'react-router-dom';
+import { Navbar, Container, Nav } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Link, Outlet } from 'react-router-dom'
+import { Store } from './Store'
+import { useContext, useEffect } from 'react'
 
 function App() {
+  const {state: {cart}, dispatch,} = useContext(Store)
 
   return (
       <div className='d-flex flex-column vh-100'>
       <header>
         <Navbar bg='dark' variant='dark' className='mb-2'>
           <Container>
-            <Navbar.Brand>Drug Delivery</Navbar.Brand>
+            <LinkContainer to= '/'>
+              <Navbar.Brand>Drug Delivery</Navbar.Brand>
+            </LinkContainer>
           </Container>
           <Nav className="m-1" variant='dark'>
-            <Nav.Link href="/cart">Cart</Nav.Link>
+            <Link to="/cart" className='nav-link'>
+              Cart
+              {cart.cartItems.length > 0 && (
+                <span className='badge'>{cart.cartItems.length}</span>
+              )}
+             </Link>
           </Nav>
         </Navbar>
       </header>

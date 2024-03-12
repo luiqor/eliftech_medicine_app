@@ -2,8 +2,8 @@ import Spinner from 'react-bootstrap/Spinner'
 
 export default function LoadingBox() {
   return (
-    <Spinner animation='border' role='status'>
-      <span className='sr-only'>Loading...</span>
-    </Spinner>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+    <Spinner animation='border' role='status'/>
+    </div>
   )
 }
