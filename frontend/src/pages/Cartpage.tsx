@@ -6,7 +6,8 @@ import { Link } from "react-router-dom"
 import { CartItem } from "../types/Cart"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useCreateOrderMutation } from "../hooks/orderHooks"
+import { createOrder } from "../api/requests/createOrder"
+// import { reduceItemsInStock } from "../api/requests/reduceItemsInStock"
 
 export default function Cartpage() {
     // const navigate = useNavigate()
@@ -40,8 +41,12 @@ export default function Cartpage() {
         return roundPrice(cartItems.reduce((total, item) => total + item.qty * item.price, 0))
       }
     
-    const { mutateAsync: createOrder } = useCreateOrderMutation()
-    
+    //   const itemsToReduce = cartItems.map(item => ({
+    //     id: item.id,
+    //     qty: item.qty,
+    //     countInStock: item.countInStock
+    //   }))
+
     const checkoutHandler = async () => {
         
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -57,7 +62,7 @@ export default function Cartpage() {
 
         try {
           setIsLoading(true)
-          const data = await createOrder({
+          await createOrder({
             orderItems: cartItems,
             customerName,
             email,
@@ -65,6 +70,7 @@ export default function Cartpage() {
             address,
             totalPrice: calculateTotalPrice(cartItems)
           })
+        //   await reduceItemsInStock(itemsToReduce)
           dispatch({type: 'CLEAR_CART'})
           localStorage.removeItem('cartItems')
           setIsLoading(false)

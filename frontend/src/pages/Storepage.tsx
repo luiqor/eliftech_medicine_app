@@ -14,7 +14,6 @@ const SHOPS_AMOUNT = 4
 
 export default function Storepage() {
   const [shop, setShop] = useState<string>(INITIAL_SHOP_VALUE)
-
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<ApiError | null>(null)
   const [products, setProducts] = useState<Product[] | null>(null)

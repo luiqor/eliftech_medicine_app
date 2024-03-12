@@ -9,7 +9,6 @@ import bodyParser from 'body-parser'
 import { OrderEntity } from './entities/OrderEntity';
 import { OrderItemEntity } from './entities/OrderItemEntity';
 
-// const conString = "postgres://szshjcgh:R4LjFJNoeA2qyZ6XQ1aWFtjQ0LOLgVh8@trumpet.db.elephantsql.com/szshjcgh"
 createConnection({
   name: "default",
   type: "postgres",
