@@ -1,13 +1,12 @@
 import { useContext, useState } from "react"
 import { Store } from "../Store"
-import { Button, Col, Form, ListGroup, Row } from "react-bootstrap"
+import { Button, Col, Form, ListGroup, Row, Spinner } from "react-bootstrap"
 import MessageBox from "../components/MessageBox"
 import { Link } from "react-router-dom"
 import { CartItem } from "../types/Cart"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useCreateOrderMutation } from "../hooks/orderHooks"
-import LoadingBox from "../components/LoadingBox"
 
 export default function Cartpage() {
     // const navigate = useNavigate()
@@ -15,10 +14,11 @@ export default function Cartpage() {
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const [address, setAddress] = useState('')
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     
     const {
         state: { cart: {cartItems}, },
-    dispatch,
+        dispatch,
     } = useContext(Store)
     const updateCartHandler = (item: CartItem, qty: number) =>{
     if (item.countInStock <= qty) {
@@ -34,39 +34,29 @@ export default function Cartpage() {
         dispatch({type: 'REMOVE_FROM_CART', payload: item})
     }
 
-    // const handlePhoneChange = (event) => {
-    //     const value = event.target.value
-    //     const pattern = /^\+0\d{2}-\d{3}-\d{2}-\d{2}$/
-    
-    //     if (!pattern.test(value)) {
-    //         alert('You\'ve entered not a valid phone number.\n Please, enter a valid phone number in format +0XX-XXX-XX-XX.')
-    //         event.target.value = ''
-    //     }
-    // }
-
-    // const handleEmailChange = (event) => {
-    //     const value = event.target.value
-    //     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    
-    //     if (!pattern.test(value)) {
-    //         alert('You\'ve entered not a valid email.\n Please, enter a valid email');
-    //         event.target.value = ''
-    //     }
-    // }
     const roundPrice = (num: number) => Math.round(num * 100 + Number.EPSILON) / 100 
     
     function calculateTotalPrice(cartItems: CartItem[]): number {
         return roundPrice(cartItems.reduce((total, item) => total + item.qty * item.price, 0))
       }
     
-    const { mutateAsync: createOrder, isLoading } = useCreateOrderMutation()
-
+    const { mutateAsync: createOrder } = useCreateOrderMutation()
+    
     const checkoutHandler = async () => {
-        if (!email) {
-            alert('Email is required');
-            return;
+        
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!email || !emailPattern.test(email)) {
+            alert('You\'ve entered not a valid email.\n Please, enter a valid email')
+            return
         }
+        const phonePattern = /^\+0\d{2}-\d{3}-\d{2}-\d{2}$/
+        if (!phone || !phonePattern.test(phone)) {
+            alert('You\'ve entered not a valid phone number.\n Please, enter a valid phone number in format +0XX-XXX-XX-XX.')
+            return
+        }
+
         try {
+          setIsLoading(true)
           const data = await createOrder({
             orderItems: cartItems,
             customerName,
@@ -77,6 +67,7 @@ export default function Cartpage() {
           })
           dispatch({type: 'CLEAR_CART'})
           localStorage.removeItem('cartItems')
+          setIsLoading(false)
           alert('Congratulations! \nYour order has been successfully submitted!')
         //   navigate(`/order/${data.order.id}`)
         }
@@ -154,9 +145,10 @@ return(
                 <h2>Total price: {calculateTotalPrice(cartItems)}₴</h2>
                 <Col md={4}>
                     <Button variant="primary" className="w-100" disabled={cartItems.length === 0 || isLoading} onClick={checkoutHandler}>
-                        Submit
+                        {isLoading ? 
+                        <Spinner animation="border" size="sm" />
+                         : 'Submit'}
                     </Button>
-                    {isLoading && <LoadingBox></LoadingBox>}
                 </Col>
             </Col>
         </Row>

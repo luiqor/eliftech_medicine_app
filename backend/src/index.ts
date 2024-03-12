@@ -33,7 +33,6 @@ app.use(
   })
 )
 
-
 app.use('/api/products', productRouter)
 app.use('/api/seed', seedRouter)
 app.use('/api/create_order', orderRouter)
