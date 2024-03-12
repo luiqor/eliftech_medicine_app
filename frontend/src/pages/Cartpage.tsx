@@ -22,7 +22,7 @@ export default function Cartpage() {
         dispatch,
     } = useContext(Store)
     const updateCartHandler = (item: CartItem, qty: number) =>{
-    if (item.countInStock <= qty) {
+    if (item.countInStock < qty) {
         alert(`Sorry, out of stock`)
         return
     }
