@@ -40,12 +40,6 @@ export default function Cartpage() {
     function calculateTotalPrice(cartItems: CartItem[]): number {
         return roundPrice(cartItems.reduce((total, item) => total + item.qty * item.price, 0))
       }
-    
-    //   const itemsToReduce = cartItems.map(item => ({
-    //     id: item.id,
-    //     qty: item.qty,
-    //     countInStock: item.countInStock
-    //   }))
 
     const checkoutHandler = async () => {
         
@@ -70,7 +64,6 @@ export default function Cartpage() {
             address,
             totalPrice: calculateTotalPrice(cartItems)
           })
-        //   await reduceItemsInStock(itemsToReduce)
           dispatch({type: 'CLEAR_CART'})
           localStorage.removeItem('cartItems')
           setIsLoading(false)

@@ -12,11 +12,13 @@ import { OrderItemEntity } from "./entities/OrderItemEntity";
 import { Request, Response } from "express";
 import { SellerShopEntity } from "./entities/SellerShopEntity";
 import { sellerShopRouter } from "./routers/sellerShopRouter";
+import dotenv from "dotenv";
+dotenv.config();
 
 createConnection({
   name: "default",
   type: "postgres",
-  url: "postgres://knttfmgm:bEJZTcsqSJOiGplCuCGuFOVnC88lA_Kb@cornelius.db.elephantsql.com/knttfmgm",
+  url: process.env.DATABASE_URL,
   synchronize: true,
   logging: true,
   entities: [ProductEntity, OrderEntity, OrderItemEntity, SellerShopEntity],

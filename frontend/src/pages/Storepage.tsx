@@ -79,10 +79,15 @@ export default function Storepage() {
               </Row>
             ))}
             </Col>
-        {products?.map((product) => 
+
+            <Col md={10}>
+            <Row>
+            {products?.map((product) => 
             (<Col key={product.id} sm={6} md={3} lg={2}>
                 <ProductItem product={product}/>
             </Col>))}
+            </Row>
+            </Col>
         </Row>
     </div>
     )
