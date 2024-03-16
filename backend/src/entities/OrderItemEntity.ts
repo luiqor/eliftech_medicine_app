@@ -1,20 +1,20 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm"
-import { OrderEntity } from "./OrderEntity"
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { OrderEntity } from "./OrderEntity";
 
-@Entity('order_items')
-export class OrderItemEntity extends BaseEntity{
-    @PrimaryColumn()
-    id!: string
+@Entity("order_items")
+export class OrderItemEntity extends BaseEntity {
+  @PrimaryColumn()
+  id!: string;
 
-    @Column()
-    name!: string
+  @Column()
+  name!: string;
 
-    @Column({type: 'numeric'})
-    price!: number
+  @Column({ type: "numeric" })
+  price!: number;
 
-    @Column()
-    image!: string
+  @Column()
+  image!: string;
 
-    @ManyToOne(() => OrderEntity, (order) => order.items)
-    order!: OrderEntity
+  @ManyToOne(() => OrderEntity, (order) => order.items)
+  order!: OrderEntity;
 }
