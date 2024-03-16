@@ -40,7 +40,7 @@ app.use(
 app.use("/api/products", productRouter);
 app.use("/api/sellershops", sellerShopRouter);
 app.use("/api/seed", seedRouter);
-app.use("/api/create_order", orderRouter);
+app.use("/api/orders", orderRouter);
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 app.get("*", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));

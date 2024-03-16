@@ -6,8 +6,8 @@ import { OrderItemEntity } from "../entities/OrderItemEntity";
 
 export const orderRouter = Router();
 
-// api/orders
-orderRouter.post("/", async (req: Request, res: Response) => {
+// api/orders/create_order
+orderRouter.post("/create_order", async (req: Request, res: Response) => {
   if (!req.body || !req.body.orderItems || req.body.orderItems.length === 0) {
     res.status(400).send({ message: "Cart is empty" });
   } else {

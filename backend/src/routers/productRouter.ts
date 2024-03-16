@@ -22,3 +22,22 @@ productRouter.get("/", async (req: Request, res: Response) => {
     res.json(products);
   }
 });
+
+// api/products/reduce-stock
+productRouter.post("/reduce-stock", async (req, res) => {
+  const items = req.body;
+  const productRepository = getRepository(ProductEntity);
+
+  for (const item of items) {
+    const product = await productRepository.findOne({ where: { id: item.id } });
+
+    if (!product || product.countInStock < item.qty) {
+      return res.status(400).json({ message: "Not enough stock" });
+    }
+
+    product.countInStock -= item.qty;
+    await productRepository.save(product);
+  }
+
+  res.json({ message: "Stock reduced successfully" });
+});

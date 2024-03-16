@@ -7,6 +7,7 @@ import { CartItem } from "../types/Cart"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { createOrder } from "../api/requests/createOrder"
+import { reduceStockQty } from "../api/requests/reduceStockQty"
 // import { reduceItemsInStock } from "../api/requests/reduceItemsInStock"
 
 export default function Cartpage() {
@@ -21,6 +22,7 @@ export default function Cartpage() {
         state: { cart: {cartItems}, },
         dispatch,
     } = useContext(Store)
+
     const updateCartHandler = (item: CartItem, qty: number) =>{
     if (item.countInStock < qty) {
         alert(`Sorry, out of stock`)
@@ -64,6 +66,8 @@ export default function Cartpage() {
             address,
             totalPrice: calculateTotalPrice(cartItems)
           })
+          await reduceStockQty(cartItems.map(item => ({ id: item.id, qty: item.qty })))
+
           dispatch({type: 'CLEAR_CART'})
           localStorage.removeItem('cartItems')
           setIsLoading(false)
@@ -81,7 +85,7 @@ return(
           <h1> Shopping Cart</h1>
         </div>
         <Row>
-            <Col md={6}>
+            <Col md={6} className="mb-5">
                 <Form.Group controlId="customer-name">
                 <Form.Label>Name: </Form.Label>
                 <Form.Control type="text" placeholder="Mykola" required value={customerName} onChange={(e) => setCustomerName(e.target.value)}></Form.Control>
